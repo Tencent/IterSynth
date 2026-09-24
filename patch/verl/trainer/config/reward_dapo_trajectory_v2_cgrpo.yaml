@@ -1,0 +1,89 @@
+# ============================================================
+# C-GRPO Reward Manager configuration
+# ============================================================
+#
+# Used by ApiPrimeDapoTrajectoryV2CGRPORewardManager
+# Based on the CaRR (Citation-aware Rubric Reward) framework
+#
+# Author: PS-Pipeline Contributors
+# Version: 2.0.0
+# ============================================================
+
+# ============================================================
+# LLM API configuration (used for C-GRPO evaluation)
+# ============================================================
+
+# LLM Judge API Key: inject via the LLM_JUDGE_API_KEY environment variable, do not hardcode
+api_key: "${LLM_JUDGE_API_KEY}"
+
+# API Base URL: replace with your own OpenAI-compatible service endpoint
+api_base_url: "https://api.openai.com/v1"
+
+# Judge Model (used for the three-step evaluation)
+# - Step 1: Hidden Entity Identification
+# - Step 2: Citation-based Rubric Judgment
+# - Step 3: Evidence Connectivity
+cgrpo_judge_model: "gpt-4o"
+
+# ============================================================
+# C-GRPO reward computation parameters
+# ============================================================
+
+# Balancing parameter alpha for the C-GRPO hybrid reward
+# Formula: R_i = (1 - alpha) * R_o + alpha * R_o * R_hat_r
+# - R_o: Outcome Reward (whether the answer is correct, 0 or 1)
+# - R_hat_r: normalized Rubric Reward (reasoning quality)
+# - alpha in [0, 1], controls the weight of the Rubric Reward
+#   - alpha = 0: consider only the Outcome Reward
+#   - alpha = 1: rely entirely on the Rubric Reward
+#   - Recommended value: 0.3 (30% Rubric, 70% Outcome)
+cgrpo_alpha: 0.3
+
+# ============================================================
+# Concurrency control parameters
+# ============================================================
+
+# Number of concurrent worker processes
+# - Used for batched, concurrent computation of the C-GRPO reward
+# - Recommended to set based on CPU core count and API rate limits
+num_workers: 64
+
+# ============================================================
+# End-to-end evaluation configuration (browsecomp_zh)
+# ============================================================
+
+# Default score for end-to-end evaluation (used when evaluation fails)
+default_score: 0
+
+# ============================================================
+# Other general configuration
+# ============================================================
+
+# Max number of retries (on LLM API call failure)
+max_retries: 3
+
+# Timeout (seconds)
+timeout: 6000.0
+
+# Whether to enable debug logging
+debug: false
+
+# ============================================================
+# Notes
+# ============================================================
+#
+# 1. Choosing cgrpo_alpha:
+#    - Smaller alpha (e.g. 0.1-0.3): focuses more on answer correctness
+#    - Larger alpha (e.g. 0.5-0.7): focuses more on reasoning-process quality
+#    - Recommended to determine the optimal value experimentally
+#
+# 2. Setting num_workers:
+#    - Too small: slow processing
+#    - Too large: may trigger API rate limiting
+#    - Recommended to tune based on your actual environment
+#
+# 3. API configuration:
+#    - api_key and api_base_url must be configured for your actual environment
+#    - cgrpo_judge_model can be any other model (e.g. gpt-4, gpt-3.5-turbo)
+#
+# ============================================================

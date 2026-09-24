@@ -1,0 +1,32 @@
+# ============================================================
+# DAPO Reward Manager generic LLM evaluation config (for ApiPrimeDapoRewardManager)
+# ============================================================
+# The fields below correspond to a model-serving backend's parameters;
+# this open-source version replaces the original values with generic
+# placeholders. Fill them in based on your own deployed/purchased LLM
+# service.
+# Strongly recommended: do NOT commit real api_key / auth_token values to
+# git in this file -- inject them via environment variables instead
+# (see .env.example at the project root).
+# ============================================================
+
+api_key: "${LLM_JUDGE_API_KEY}"          # inject via environment variable, do not hardcode
+url: "http://localhost:8000/v1/chat/completions"  # replace with your LLM inference service address
+model: "your-judge-model-name"
+auth_token: "Bearer ${LLM_JUDGE_AUTH_TOKEN}"      # extra gateway auth token, if your service requires one
+wsid: ""
+system_prompt: "You are a professional evaluation assistant. Score the content according to the given evaluation criteria and output the result strictly in the requested JSON format."
+scoring_prompt: ""
+stream: False
+max_retries: 3
+apply_chat_template: False
+max_tokens: 100000
+temperature: 1.0
+top_p: 1.0
+top_k: 20
+repetition_penalty: 1.0
+output_seq_len: 2048
+max_input_seq_len: 96000
+default_score: 0
+num_workers: 10
+tokenizer: null

@@ -1,0 +1,75 @@
+tools:
+  # --------------------------------------------------------------------------
+  # search: web search via the Serper.dev Google Search API
+  # Requires environment variable SERPER_API_KEY (https://serper.dev)
+  # --------------------------------------------------------------------------
+  - class_name: verl.tools.search_tool.SearchTool
+    config:
+      num_workers: 16
+      rate_limit: 16
+      timeout: 30
+      type: native
+    tool_schema:
+      type: function
+      function:
+        name: search
+        description: >-
+          Performs batched web searches via the Serper.dev Google Search API:
+          supply an array of query strings, and the tool returns the top
+          search results for each query in a single call.
+        parameters:
+          type: object
+          properties:
+            query:
+              type: array
+              items:
+                type: string
+              description: >-
+                Array of search query strings (1 to 5 per call). Use short,
+                search-engine-friendly keywords rather than full natural
+                language questions. If the question involves comparing
+                multiple entities or contains several sub-questions, issue a
+                separate query for each one instead of combining them. Avoid
+                re-issuing queries that have already been searched in this
+                conversation.
+          required:
+            - query
+
+  # --------------------------------------------------------------------------
+  # visit: fetch a webpage (Jina Reader) and extract goal-relevant content
+  # via an LLM call. Optional JINA_API_KEY, requires VISIT_SUMMARY_API_KEY.
+  # --------------------------------------------------------------------------
+  - class_name: verl.tools.visit_tool.VisitTool
+    config:
+      num_workers: 16
+      rate_limit: 16
+      type: native
+    tool_schema:
+      type: function
+      function:
+        name: visit
+        description: >-
+          Visit one or more webpages and return a summary of the content
+          relevant to a specific goal. Use this after `search` to read the
+          full content of a promising result.
+        parameters:
+          type: object
+          properties:
+            url:
+              type:
+                - string
+                - array
+              items:
+                type: string
+              minItems: 1
+              description: >-
+                The URL(s) of the webpage(s) to visit. Can be a single URL
+                string or an array of URL strings.
+            goal:
+              type: string
+              description: >-
+                The specific information you are looking for on the page(s).
+                Used to guide the extraction so the summary stays focused.
+          required:
+            - url
+            - goal

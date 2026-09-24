@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Training artifacts / local outputs
+checkpoints/
+logs/
+rollout_data/
+*.tfevents.*
+wandb/
+
+# Local environment / secrets
+.env
+*.local

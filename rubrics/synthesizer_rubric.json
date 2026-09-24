@@ -1,0 +1,40 @@
+{
+  "agent_type": "synthesizer",
+  "rubrics": [
+    {
+      "id": "entity_anchor_integrity",
+      "name": "Every candidate entity carries a uniqueness anchor",
+      "description": "Each candidate proper noun must be paired with an anchor that distinguishes it.\n\n- **5 (Exceptional — requires ALL THREE)**: (a) Every candidate entity carries a verbatim anchor, AND (b) the anchor is UNIQUELY discriminating (specific ID, niche event/location/date — not generic 'a singer', 'born in 1990'), AND (c) if an inherited candidate status changed (tentative→confirmed or demoted), the transition is explicitly marked with the triggering anchor. Without all three, cap at 3.\n- **3 (Standard — default)**: Every candidate has an anchor, but it may be a standard date, location, or broad profession. It grounds the entity but lacks surgical distinctiveness. Merely listing entities with generic attributes earns a 3.\n- **1 (Failure)**: Any candidate has NO anchor; tentative→confirmed upgrade lacks anchor quote; or mere name-repetition is treated as an anchor.",
+      "weight": 5,
+      "critical": true
+    },
+    {
+      "id": "conflict_flagging_required",
+      "name": "Cross-source conflicts explicitly flagged",
+      "description": "Scores handling of contradictory evidence across passages.\n\n- **5 (Exceptional — requires ALL THREE)**: (a) The conflict is surfaced with verbatim quotes for BOTH sides, AND (b) the summary names the SPECIFIC attribute in conflict (e.g., 'the birth year'), AND (c) provides a diagnosis of the likely cause (different sources/timeframes/definitions) rather than just listing both. Without all three, cap at 3.\n- **3 (Standard)**: Conflict triggered and both sides are named/flagged with quotes, but simply placed side-by-side without analytical breakdown.\n- **N/A**: No conflict triggered this round.\n- **1 (Failure)**: Conflict triggered but silently collapsed, one side dropped, or smoothed over without acknowledging the contradiction.",
+      "weight": 3,
+      "critical": true
+    },
+    {
+      "id": "gold_evidence_salience",
+      "name": "Stem-matching passages surfaced and contextualized",
+      "description": "Passages matching rare/restrictive stem tokens must be surfaced.\n\n- **5 (Exceptional — requires ALL THREE)**: (a) The summary quotes the rare-token passage verbatim (not paraphrased), AND (b) explicitly names which sub-constraint in the user query this passage addresses, AND (c) filters out at least one passage that does NOT match the rare tokens (naming the pruning decision). Without all three, cap at 3.\n- **3 (Standard)**: Rare-token-matching passages are faithfully quoted with attribution or marked irrelevant with a specific reason.\n- **1 (Failure)**: Any rare-token-matching passage is silently dropped, highly relevant clues are ignored, or dismissed with a generic 'not relevant'.",
+      "weight": 4,
+      "critical": true
+    },
+    {
+      "id": "claim_citation_grounding",
+      "name": "New factual claims logically grounded in cited source",
+      "description": "Every new/upgraded factual claim must be faithfully supported by retrieved text without hallucination.\n\n- **5 (Exceptional — requires ALL THREE)**: (a) Every new claim carries a verbatim citation, AND (b) the summary explicitly cross-references the new claim against a prior-summary claim (adding, refining, or contradicting it), AND (c) the summary contains ZERO uncited speculation AND no irrelevant retrieved bloat. Without all three, cap at 3.\n- **3 (Standard)**: Factual claims are faithfully extracted and cited from the retrieved text. No hallucinations, but the summary might read like a disjointed list or contain minor irrelevant details.\n- **N/A**: No new claims this round (i.e., the summary is unchanged from the previous one).\n- **1 (Failure)**: Any new claim lacks citation; interpretive relabeling (hallucination of meaning); or derived quantity presented as verified fact.",
+      "weight": 4,
+      "critical": false
+    },
+    {
+      "id": "subconstraint_coverage_and_disambiguation",
+      "name": "Explicit tracking of constraint delta",
+      "description": "Summary must track each stem sub-constraint and preserve hierarchical distinctions.\n\n- **5 (Exceptional — requires ALL THREE)**: (a) Every sub-constraint is individually tagged with a status (resolved/narrowed/open/conflicting), AND (b) the section of the summary is VISUALLY or STRUCTURALLY reordered so that the most-critical unresolved constraint appears first / is flagged, AND (c) at least one dead-end candidate from earlier rounds is explicitly marked as ruled-out with the triggering evidence. Without all three, cap at 3.\n- **3 (Standard)**: Every sub-constraint has an explicit or clearly derivable status tag. Accurate, but presented as a standard checklist without strategic reorganization.\n- **1 (Failure)**: Any sub-constraint silently dropped, loosened, or collapsed; or a candidate is promoted to 'leading' while only satisfying a subset of constraints.",
+      "weight": 4,
+      "critical": true
+    }
+  ]
+}

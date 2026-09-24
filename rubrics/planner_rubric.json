@@ -1,0 +1,40 @@
+{
+  "agent_type": "planner",
+  "rubrics": [
+    {
+      "id": "branch_direction_justification",
+      "name": "Branch / direction justified against stem qualifiers",
+      "description": "Evaluates how precisely the Planner justifies its chosen direction against the user's restrictive qualifiers (superlatives, temporal/geo scope, etc.).\n\n- **5 (Exceptional — requires ALL THREE of the following verifiable elements)**: (a) The <think> cites at least ONE concrete workspace fact by a verbatim quote, AND (b) explicitly names at least ONE plausible alternative candidate that is ruled out with a specific reason, AND (c) maps the decision to a SPECIFIC restrictive qualifier (not generic 'relevant to query'). Without all three, cap at 3.\n- **3 (Standard — the expected baseline for any competent Planner)**: Direction is explicitly named and loosely aligned with the user query. Constraints are mentioned. This is the DEFAULT — merely stating 'I will search X because the query asks about X' earns a 3.\n- **1 (Failure)**: Direction pursued only via broad topic overlap with no qualifier check; or a known ambiguity is silently ignored; or <think> provides no rationale for the chosen direction.",
+      "weight": 5,
+      "critical": true
+    },
+    {
+      "id": "constraint_closure_tracking",
+      "name": "Stem sub-constraints tracked with evidence linkage",
+      "description": "Evaluates how strictly the Planner tracks the status of each sub-constraint.\n\n- **5 (Exceptional — requires ALL THREE)**: (a) Every sub-constraint in the user query is INDIVIDUALLY listed by name/token, AND (b) for each, the status is marked with an explicit tag (e.g. 'resolved'/'open'/'conflicting') tied to a verbatim evidence quote, AND (c) for at least one still-open constraint, the Planner names the EXACT missing attribute/token that would close it (not a generic 'need more info'). Without all three, cap at 3.\n- **3 (Standard — default for a competent round)**: The <think> mentions most sub-constraints and indicates their status implicitly. Tracking is present but informal. This is the DEFAULT — structured tracking alone without surgical gap specification earns a 3.\n- **1 (Failure)**: Any sub-constraint is silently skipped, forgotten, or loosened; or ≥2 sub-constraints unaccounted for when committing to an answer; or <think> enumerates constraints but does not link any to evidence.",
+      "weight": 5,
+      "critical": true
+    },
+    {
+      "id": "evidence_based_direction_correction",
+      "name": "Reflects on evidence and corrects direction when warranted",
+      "description": "Scores whether the <think> demonstrates evidence-based self-correction when current hypotheses fail.\n\n- **5 (Exceptional — requires ALL THREE)**: (a) <think> cites a VERBATIM contradicting workspace fact, AND (b) explicitly diagnoses *why* the previous hypothesis failed (not just 'this doesn't fit'), AND (c) the new query/direction surgically addresses the diagnosed cause (not just a general pivot). Without all three, cap at 3.\n- **3 (Standard)**: Recognizes the mismatch and pivots the search direction, but the reasoning is brief or the new query is somewhat generic.\n- **N/A**: No evidence-hypothesis mismatch this round; continuing the same direction is fully warranted (NOT a pivot scenario).\n- **1 (Failure)**: Evidence clearly contradicts or fails to support the hypothesis, yet <think> continues blindly without acknowledging the mismatch.",
+      "weight": 3,
+      "critical": false
+    },
+    {
+      "id": "candidate_comparison_discipline",
+      "name": "Actively disambiguates between competing candidates",
+      "description": "Scores whether the Planner actively pushes to disambiguate rather than tunnel-visioning on a single hypothesis when multiple exist.\n\n- **5 (Exceptional — requires ALL THREE)**: (a) At least TWO competing candidates are named explicitly, AND (b) the issued query/queries target a SPECIFIC attribute that would ONLY be true for one candidate (falsification strategy, not generic 'more info about X vs Y'), AND (c) the <think> states which candidate the query aims to eliminate. Without all three, cap at 3.\n- **3 (Standard)**: Contested slot exists, and the Planner attempts disambiguation by querying multiple names or broadening the search, but without a definitive falsification strategy.\n- **N/A**: No contested slot exists — disambiguation is not applicable this round.\n- **1 (Failure)**: Contested slot exists BUT Planner ignores alternatives for ≥2 rounds, issues near-duplicate queries, or commits to an answer without eliminating the known alternative.",
+      "weight": 3,
+      "critical": false
+    },
+    {
+      "id": "semantic_match_of_cited_evidence",
+      "name": "Cited evidence strictly supports the asked attribute",
+      "description": "Scores whether the workspace quotes cited in <think> genuinely resolve the asked attribute, not just share topic words.\n\n- **5 (Exceptional — requires ALL THREE)**: (a) The cited quote literally contains the target attribute value (date/name/number), AND (b) no inferential leap is required (the attribute is stated, not implied), AND (c) no competing interpretation is plausible from the same quote. Without all three, cap at 3.\n- **3 (Standard)**: The cited quote is highly relevant and supports the attribute, but relies on a minor, safe inference, or is technically a partial match, or shares only the main topic.\n- **N/A**: <think> cites no workspace quote this round (e.g., first exploratory round).\n- **1 (Failure)**: The primary justification quote is topic-overlap-only; relies on authority/frequency appeals instead of facts; or contradicts the committed value.",
+      "weight": 2,
+      "critical": false
+    }
+  ]
+}
