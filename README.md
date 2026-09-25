@@ -6,7 +6,8 @@ IterSynth: Rethinking Deep Search Agents via Role-Decoupled Iterative Synthesis
 
 <p><em>A role-decoupled, summary-based deep-search agent paradigm, trained with Role-Decoupled Policy Optimization (RDPO).</em></p>
 
-![Paper](https://img.shields.io/badge/paper-coming%20soon-lightgrey?style=for-the-badge&logo=arxiv&logoColor=white)
+[![arXiv](https://img.shields.io/badge/arXiv-2609.29444-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2609.29444)
+[![Hugging Face Papers](https://img.shields.io/badge/Paper-Hugging%20Face-1f86c2?style=for-the-badge&logo=huggingface&logoColor=yellow)](https://huggingface.co/papers/2609.29444)
 [![License](https://img.shields.io/badge/license-Apache%202.0-4c1?style=for-the-badge)](./LICENSE.txt)
 
 </div>
@@ -22,6 +23,7 @@ IterSynth: Rethinking Deep Search Agents via Role-Decoupled Iterative Synthesis
 
 ## 🎉 News
 
+* **[2026-09]** Our paper is out on [arXiv:2609.29444](https://arxiv.org/abs/2609.29444) — also available on [Hugging Face Papers](https://huggingface.co/papers/2609.29444).
 * **[2026-09]** RL training code for IterSynth (dual-role rollout, reward managers, RDPO advantage computation) is open-sourced as a patch on top of [verl](https://github.com/volcengine/verl).
 
 ---
@@ -54,7 +56,7 @@ IterSynth: Rethinking Deep Search Agents via Role-Decoupled Iterative Synthesis
 
 To train this workflow end-to-end, we introduce **Role-Decoupled Policy Optimization (RDPO)**, which combines terminal outcome rewards with turn-level rubric evaluations and normalizes advantages **independently per role**, so that the dense Synthesizer-side signals and the sparse Planner-side signals never contaminate each other's credit assignment.
 
-This repository provides the **RL training infrastructure** for IterSynth, released as a patch over [verl](https://github.com/volcengine/verl): the dual-role rollout, the RDPO reward manager and rubric scoring, the advantage computation, plus a ready-to-use search/browse tool layer.
+This repository provides the **RL training infrastructure** for IterSynth, released as a patch over [verl](https://github.com/volcengine/verl): the dual-role rollout, the RDPO reward manager and rubric scoring, the advantage computation, plus a ready-to-use search/browse tool layer. The full method, training recipe and evaluation results are in the [paper](https://arxiv.org/abs/2609.29444).
 
 ---
 
@@ -134,7 +136,7 @@ Role specialization therefore comes entirely from role prompts, information acce
 * **Punches far above its weight class** — with only 8B parameters it surpasses several 30B-scale agents (e.g. ReSum-30B, AgentFold-30B-A3B, OpenSeeker-30B-SFT) and approaches IterResearch-30B-A3B / WebSailor-V2-30B at **less than one third** of the parameter budget.
 * **Also a strong training-free workflow** — used purely as a prompting scaffold (no parameter updates), IterSynth averages **66.1** on Claude-4.5-Opus and **47.9** on DeepSeek-V3.1, beating both ReAct and IterResearch on the same backbones.
 
-> Full comparisons against foundation models with tools and ≥30B trained agents, plus the training-methodology and role-swap ablations, are available in the paper (Tables 1–4).
+> Full comparisons against foundation models with tools and ≥30B trained agents, plus the training-methodology and role-swap ablations, are available in the [paper](https://arxiv.org/abs/2609.29444) (Tables 1–4).
 
 ---
 
@@ -403,10 +405,14 @@ If your base model was SFT'd on a specific tool-calling format (e.g. a template 
 If you find IterSynth or this codebase useful in your research, please consider citing our work:
 
 ```bibtex
-@article{itersynth,
-  title     = {IterSynth: Rethinking Deep Search Agents via Role-Decoupled Iterative Synthesis},
-  journal   = {Preprint},
-  year      = {2026}
+@misc{wu2026itersynthrethinkingdeepsearch,
+      title={IterSynth: Rethinking Deep Search Agents via Role-Decoupled Iterative Synthesis},
+      author={Xingyu Wu and Yuchen Yan and Zhengxi Lu and Siqi Chen and Xin ZHANG and Aiting Liu and Chao Deng and Jie Liu and Jin Ma and Jian Shao and Jun Xiao and Yongliang Shen},
+      year={2026},
+      eprint={2609.29444},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2609.29444}
 }
 ```
 
